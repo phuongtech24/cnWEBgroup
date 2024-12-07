@@ -1,37 +1,43 @@
 <?php
+class User {
+    private $id;
+    private $username;
+    private $password;
+    private $role;
+
+    public function __construct($id, $username, $password, $role) {
+        $this->id = $id;
+        $this->username = $username;
+        $this->password = $password;
+        $this->role = $role;
+    }
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getUsername() {
+        return $this->username;
+    }
+
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function getRole() {
+        return $this->role;
+    }
     
-
-    function getCon(){
-        $hostname = 'localhost';
-        $user = 'root';
-        $pass = '';
-        $dbname = 'tintuc';
-
-        try{
-            $conn = mysqli_connect($hostname, $user, $pass, $dbname);
-            echo 'ket noi ok';
-            return $conn;
-        }
-        catch(mysqli_sql_exception){
-            return null;
-        }
+    public function setUsername($username) {
+        $this->username = $username;
     }
 
-    function checkUser($user, $pass){
-        $conn = getCon();
-        $query = "SELECT * FROM users";
-
-        $result = mysqli_query($conn, $query);
-        if(mysqli_num_rows($result) >0 ){
-            while($row = mysqli_fetch_assoc($result)){
-                $duser = $row['username'];   // database user
-                $dpass = $row['password'];   // database pass
-                if($duser == $user && $dpass == $pass){
-                    return true;
-                    break;
-                }
-            }
-        }
-        return false;
+    public function setPassword($password) {
+        $this->password = $password;
     }
+
+    public function setRole($role) {
+        $this->role = $role;
+    }
+}
 ?>

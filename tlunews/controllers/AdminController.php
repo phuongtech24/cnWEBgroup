@@ -65,4 +65,62 @@ class AdminController{
             header ("Location:index.php");
         }
     }
+    
+    public function manageUsers() {
+        require 'models/UserService.php';
+        $userService = new UserService();
+        $users = $userService->getAllUsers();
+        include 'views/admin/dashboard.php'; // Hiển thị danh sách người dùng
+    }
+
+    public function addUser() {
+        require 'models/UserService.php';
+        require 'views/admin/user/add.php'; // Form thêm người dùng
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+            $role = (int) $_POST['role'];
+
+            $userService = new UserService();
+            $userService->addUser($username, $password, $role);
+
+            header ("Location:index.php");
+        }
+    }
+
+    public function editUser() {
+        require 'models/UserService.php';
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = (int) $_POST['id'];
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+            $role = (int) $_POST['role'];
+
+            $userService = new UserService();
+            $userService->editUser($id, $username, $password, $role);
+
+            header ("Location:index.php");
+        }
+    }
+
+    public function deleteUser() {
+        require 'models/UserService.php';
+        if (isset($_GET['id'])) {
+            $id = (int) $_GET['id'];
+
+            $userService = new UserService();
+            $userService->deleteUser($id);
+
+            header ("Location:index.php");
+        }
+    }
+
+    public function editUserForm() {
+        require 'models/UserService.php';
+        $id = (int) $_GET['id'];
+        $userService = new UserService();
+        $user = $userService->getUserById($id);
+        include 'views/admin/dashboard.php'; // Form sửa thông tin người dùng
+    }
 }
+
